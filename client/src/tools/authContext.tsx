@@ -22,12 +22,10 @@ export const Auth: FC<Props> = ({ children }) => {
     checkAuth();
   }, []);
 
-  const checkAuth = async () => {
-    const res = await checkIsAuthenticated();
-    if (res) {
-      setIsAuthenticated(res);
-      setIsLoading(false);
-    }
+  const checkAuth = () => {
+    checkIsAuthenticated()
+      .then((res) => setIsAuthenticated(res))
+      .then(() => setIsLoading(false));
   };
 
   const login = (credentials: credentials) => {
@@ -42,7 +40,9 @@ export const Auth: FC<Props> = ({ children }) => {
   };
 
   const signUp = (credentials: credentials) => {
-    authSignUp(credentials).then((res) => setIsAuthenticated(res));
+    authSignUp(credentials)
+      .then((res) => setIsAuthenticated(res))
+      .then(() => setIsLoading(false));
   };
 
   return (

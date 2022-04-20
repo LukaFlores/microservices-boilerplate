@@ -19,19 +19,29 @@ const App: React.FC<{}> = (props) => {
   const [showLoader, setShowLoader] = useState<boolean>(true);
   const { isAuthenticated, isLoading } = useContext<ContextInteface>(AuthContext);
 
-  useEffect(() => {
-    if (isLoading === true) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [isLoading]);
-
   return (
     <div>
       {showLoader ? <Loading loading={true} /> : null}
 
-      {loading === false && (
+
+    {/* RACE CONDITION NEEDS TO BE FIXED, NOT DEPENDED ON CONTEXT LOADING*/}
+      <OnImagesLoaded
+        onLoaded={() => {
+          setTimeout(() => {
+            setLoading(false);
+            setTimeout(() => {
+              setShowLoader(false);
+            }, 500);
+          }, 1000);
+        }}
+        onTimeout={() => {
+          setLoading(false);
+          setTimeout(() => {
+            setShowLoader(false);
+          }, 500);
+        }}
+        timeout={7000}
+      >
         <div className="flex flex-row z-30 bg-white">
           <div className="antialiased font-sans h-full min-h-screen w-full">
             <main className="" id="main">
@@ -43,7 +53,7 @@ const App: React.FC<{}> = (props) => {
                     path="/homepage"
                     element={
                       isLoading === false &&
-                      (isAuthenticated === true ? <Homepage /> : <Navigate to="/" />)
+                      (isAuthenticated === true ? <Homepage /> : <Navigate to="/signin" />)
                     }
                   />
                 </Routes>
@@ -51,7 +61,7 @@ const App: React.FC<{}> = (props) => {
             </main>
           </div>
         </div>
-      )}
+      </OnImagesLoaded>
     </div>
   );
 };
