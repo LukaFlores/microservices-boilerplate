@@ -24,7 +24,7 @@ const App: React.FC<{}> = (props) => {
       {showLoader ? <Loading loading={true} /> : null}
 
 
-    {/* RACE CONDITION NEEDS TO BE FIXED, NOT DEPENDED ON CONTEXT LOADING*/}
+    {/* RACE CONDITION NEEDS TO BE FIXED, NOT DEPENDED ON CONTEXT LOADING */}
       <OnImagesLoaded
         onLoaded={() => {
           setTimeout(() => {
