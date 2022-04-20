@@ -9,6 +9,11 @@ interface Props {
   children: any;
 }
 
+interface credentials {
+  email: string;
+  password: string;
+}
+
 export const Auth: FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,25 +22,28 @@ export const Auth: FC<Props> = ({ children }) => {
     checkAuth();
   }, []);
 
-  const checkAuth = () =>
-    checkIsAuthenticated()
-      .then((res) => setIsAuthenticated(res))
-      .then(() => setIsLoading(false));
+  const checkAuth = async () => {
+    const res = await checkIsAuthenticated();
+    if (res) {
+      setIsAuthenticated(res);
+      setIsLoading(false);
+    }
+  };
 
-  const login = (credentials: any) =>
+  const login = (credentials: credentials) => {
     authLogin(credentials)
       .then((res) => setIsAuthenticated(res))
       .then(() => setIsLoading(false));
+  };
 
   const logout = () => {
     authLogout();
     setIsAuthenticated(false);
   };
 
-  const signUp = (credentials: any) =>
-    authSignUp(credentials)
-      .then((res) => setIsAuthenticated(res))
-      .then(() => setIsLoading(false));
+  const signUp = (credentials: credentials) => {
+    authSignUp(credentials).then((res) => setIsAuthenticated(res));
+  };
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, signUp }}>

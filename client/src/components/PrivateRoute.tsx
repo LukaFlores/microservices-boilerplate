@@ -3,41 +3,21 @@ import { Route, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../tools/authContext';
 
-interface PrivateRouteInterface {
-  component: React.ComponentType;
+interface AuthRequiredInterface {
+  element: any;
   path: string;
+}
+interface credentials {
+  email: string;
+  password: string;
 }
 export type ContextInteface = {
   isAuthenticated?: any;
   isLoading?: any;
-  login?(credentials: any): Promise<void>;
+  login?(credentials: credentials): any;
+  signUp?(credentials: credentials): any;
   logout?(): any;
-  signUp?(credentials: any): Promise<void>;
 };
 
-const PrivateRoute: FC<PrivateRouteInterface> = ({ component: Component, path }) => {
-  const { isAuthenticated, isLoading } = useContext<ContextInteface>(AuthContext);
 
-  return (
-    <Route
-      path={path}
-      element={
-        !isLoading ? (
-          isAuthenticated ? (
-            <Component />
-          ) : (
-            <Navigate to="/signin" />
-          )
-        ) : (
-          <div>loading</div>
-        )
-      }
-    />
-  );
-};
 
-PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-};
-
-export default PrivateRoute;
