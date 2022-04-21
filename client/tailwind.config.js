@@ -1,9 +1,6 @@
 module.exports = {
-  content: [
-    './public/**/*.html',
-    './src/**/*.{ts,tsx}',
-  ],
-  darkMode: 'class', 
+  content: ['./public/**/*.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class',
   theme: {
     screens: {
       xs: '370px',
@@ -14,4 +11,4 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}
