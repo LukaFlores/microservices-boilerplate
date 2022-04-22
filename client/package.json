@@ -9,6 +9,8 @@
     "axios": "^0.26.1",
     "concurrently": "^7.1.0",
     "framer-motion": "^6.3.0",
+    "google-map-react": "^2.1.10",
+    "lodash": "^4.17.21",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-on-images-loaded": "^2.2.7",
@@ -35,6 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
+    "@types/google-map-react": "^2.1.5",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
     "prettier": "2.6.2",
