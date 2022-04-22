@@ -7,6 +7,7 @@ import { AuthContext } from './tools/authContext';
 import Homepage from './features/Homepage';
 import SignIn from './features/SignIn';
 import Loading from './components/Loading';
+import GithubActivityCalendar from './features/GithubActivity';
 
 const App: React.FC<{}> = (props) => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const App: React.FC<{}> = (props) => {
               <Routes>
                 <Route path="/" element={<Dashboard loading={showLoader} />} />
                 <Route path="/signin" element={<SignIn />} />
+                <Route path="/calendar" element={<GithubActivityCalendar />} />
                 <Route
                   path="/homepage"
                   element={
