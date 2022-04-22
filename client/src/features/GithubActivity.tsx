@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import GitHubCalendar from '../components/GithubCalendar/GithubCalendar';
-import Data from '../services/data.json';
+import { getGithubActivity } from '../services/githubactivity';
 
 const GithubActivityCalendar: React.FC = () => {
   let today = new Date().toISOString().slice(0, 10);
   const [todayIndex, setTodayIndex] = useState(0);
+  const [contributions, setContributions] = useState([]);
 
   const init = async () => {
-    Data.contributions.map((day: any, index: number) => {
-      if (day.date.toString() === today) {
-        setTodayIndex(index);
-      }
+    if (!process.env.REACT_APP_ANONYMOUS_GITHUB) {
+      return;
+    }
+    // Can only handle two usernames or more than two years
+    getGithubActivity({
+      usernames: ['lukaflores', process.env.REACT_APP_ANONYMOUS_GITHUB],
+    }).then((res) => {
+      res.contributions.map((day: any, index: number) => {
+        if (day.date.toString() === today) {
+          setTodayIndex(index);
+          return;
+        }
+      });
+      setContributions(res.contributions);
+      
     });
   };
 
@@ -23,7 +35,8 @@ const GithubActivityCalendar: React.FC = () => {
     <div className="flex justify-center mt-20 bg-[#0f1116] text-white w-3/4 border-8 border-[#0f1116] rounded-lg">
       <GitHubCalendar
         year={'last'}
-        data={Data.contributions.slice(todayIndex, todayIndex + 365).reverse()}
+        loading={contributions === null ? true : false}
+        data={contributions && contributions.slice(todayIndex, todayIndex + 365).reverse()}
         theme={{
           level0: '#181b21',
           level1: '#20432b',

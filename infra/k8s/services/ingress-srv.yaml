@@ -10,6 +10,13 @@ spec:
     - host: boilerplate.dev
       http:
         paths:
+          - path: /api/testsrv/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: testsrv-srv
+                port:
+                  number: 3000
           - path: /api/users/?(.*)
             pathType: Prefix
             backend:

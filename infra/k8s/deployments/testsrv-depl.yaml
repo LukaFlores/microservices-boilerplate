@@ -1,0 +1,32 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testsrv-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testsrv
+  template:
+    metadata:
+      labels:
+        app: testsrv
+    spec:
+      containers:
+        - name: testsrv
+          image: lukaflores/fullstack-k8s-testsrv
+---
+# Cluster IP Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: testsrv-srv
+spec:
+  selector:
+    app: testsrv
+  ports:
+    - name: testsrv
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
